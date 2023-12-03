@@ -22,8 +22,8 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), '/opt/victronenergy/d
 from vedbus import VeDbusService
 
 
-class DbusShelly3emService:
-  def __init__(self, paths, productname='Shelly 3EM', connection='Shelly 3EM HTTP JSON service'):
+class DbusShellyEM50Service:
+  def __init__(self, paths, productname='Shelly EM50', connection='Shelly EM50 HTTP JSON service'):
     config = self._getConfig()
     deviceinstance = int(config['DEFAULT']['DeviceInstance'])
     customname = config['DEFAULT']['CustomName']
@@ -125,7 +125,7 @@ class DbusShelly3emService:
     
     # check for response
     if not meter_r:
-        raise ConnectionError("No response from Shelly 3EM - %s" % (URL))
+        raise ConnectionError("No response from Shelly EM50 - %s" % (URL))
     
     meter_data = meter_r.json()     
     
@@ -146,7 +146,7 @@ class DbusShelly3emService:
  
   def _update(self):   
     try:
-       #get data from Shelly 3em
+       #get data from Shelly EM50
        meter_data = self._getShellyData()
        
        #send data to DBus
@@ -247,7 +247,7 @@ def main():
       _v = lambda p, v: (str(round(v, 1)) + ' V')   
      
       #start our main-service
-      pvac_output = DbusShelly3emService(
+      pvac_output = DbusShellyEM50Service(
         paths={
           '/Ac/Energy/Forward': {'initial': 0, 'textformat': _kwh}, # energy bought from the grid
           '/Ac/Energy/Reverse': {'initial': 0, 'textformat': _kwh}, # energy sold to the grid
